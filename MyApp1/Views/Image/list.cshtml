@@ -1,0 +1,22 @@
+﻿@model List<MyApp1.ViewModels.Image.ImageViewModel>
+<h2>گالری تصاویر</h2>
+<br/>
+<a asp-controller="Image"asp-action="Create" class="btn btn-success">ایجاد تصویر</a>
+<div class="row">
+@foreach (var image in Model)
+{
+    <div class="col-12 col-md-4">
+        <div class="card">
+            <img class="card-img-top" src="@Url.Content(@image.FilePath)" alt="Card image cap">
+            <div class="card-body">
+                <h1 class="card-title">@image.Title</h1>
+                <div class="d-flex justify-content-between">
+                    <span>@image.Description</span>
+                    <a asp-controller="Image" asp-action="Edit"asp-route-id="@image.ImageID" class="btn btn-warning">ویرایش</a>
+                    <a asp-controller="Image" asp-action="Delete" asp-route-id="@image.ImageID" class="btn btn-danger">حذف</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>

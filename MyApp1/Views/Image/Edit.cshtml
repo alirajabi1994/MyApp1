@@ -1,0 +1,85 @@
+﻿@model MyApp1.ViewModels.Image.UpdateImageViewModel
+
+@{
+    ViewData["Title"] = "ویرایش تصویر";
+}
+
+<h2>ویرایش تصویر</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <!-- فیلد عنوان -->
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- فیلد توضیحات -->
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- نمایش تصویر فعلی -->
+    <div class="form-group">
+        <label>تصویر فعلی:</label>
+        <div class="form-group">
+            @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+            {
+                <img id="imgAvatar" class="thumbnail" src="@Url.Content(Model.ExistingImagePath)" style="max-width: 200px;" />
+            }
+            else
+            {
+                <p>تصویری وجود ندارد</p>
+            }
+        </div>
+    </div>
+
+    <!-- فیلد انتخاب تصویر جدید -->
+    <div class="form-group">
+        <label asp-for="ImageFile" class="control-label">انتخاب تصویر جدید</label>
+        <input asp-for="ImageFile" id="imageUpload" type="file" class="form-control-file" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+
+    <!-- پیش‌نمایش تصویر جدید -->
+    <div class="form-group">
+        <label>پیش‌نمایش تصویر جدید:</label>
+        <img id="imagePreview" src="@Model.ExistingImagePath" alt="Preview" style="max-width: 200px; display: none;" />
+    </div>
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ExistingImagePath" />
+
+    <!-- دکمه‌های ذخیره تغییرات و بازگشت -->
+    <button type="submit" class="btn btn-warning">ویرایش</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // کد jQuery برای نمایش پیش‌نمایش تصویر جدید
+        $(document).ready(function () {
+            $('#imageUpload').change(function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imagePreview').attr('src', e.target.result);
+                        $('#imagePreview').show();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+   
+
